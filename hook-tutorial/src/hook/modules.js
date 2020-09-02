@@ -61,3 +61,30 @@ export const useClick = (onClick) => {
 
   return element;
 };
+
+// useConfirm
+export const useConfirm = (message, onConfirm, onCancel) => {
+  const confirmAction = () => {
+    if (confirm(message)) {
+      onConfirm;
+    } else {
+      onCancel;
+    }
+  };
+
+  return confirmAction;
+};
+
+// usePreventLeave
+export const usePreventLeave = () => {
+  const listener = (event) => {
+    event.preventDefault();
+    event.returnValue = "";
+  };
+
+  const enablePrevent = () => window.addEventListener("beforeunload", listener);
+  const disablePrevent = () =>
+    window.removeEventListener("beforeunload", listener);
+
+  return { enablePrevent, disablePrevent };
+};

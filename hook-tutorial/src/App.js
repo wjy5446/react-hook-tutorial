@@ -1,28 +1,26 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./App.css";
 
-const useClick = (onClick) => {
-  const element = useRef();
+const usePreventLeave = () => {
+  const listener = (event) => {
+    event.preventDefault();
+    event.returnValue = "";
+  };
 
-  useEffect(() => {
-    if (element.current) {
-      element.current.addEventListener("click", onClick);
+  const enablePrevent = () => window.addEventListener("beforeunload", listener);
+  const disablePrevent = () =>
+    window.removeEventListener("beforeunload", listener);
 
-      return () => element.current.removeEventListener("click", onClick);
-    }
-  }, []);
-
-  return element;
+  return { enablePrevent, disablePrevent };
 };
 
 function App() {
-  const sayHello = () => console.log("hello");
-
-  const title = useClick(sayHello);
+  const { protect, unprotect } = usePreventLeave();
 
   return (
     <div className="App">
-      <div ref={title}>Hello</div>
+      <button onClick={protect}>Protect</button>
+      <button onClick={unprotect}>Unprotext</button>
     </div>
   );
 }
