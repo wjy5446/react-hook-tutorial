@@ -22,3 +22,27 @@ export const useInput = (initialValue, validator) => {
 
   return { value, onChange };
 };
+
+//useTab
+export const useTab = (initialTab, allTabs) => {
+  const [currentIndex, setCurrentIndex] = useState(initialTab);
+
+  return {
+    currentItem: allTabs[currentIndex],
+    changeItem: setCurrentIndex,
+  };
+};
+
+//useTitle
+const useTitle = (initialTitle) => {
+  const [title, setTitle] = useState(initialTitle);
+
+  const updateTitle = () => {
+    const htmlTitle = document.querySelector("title");
+    htmlTitle.innerText = title;
+  };
+
+  useEffect(updateTitle, [title]);
+
+  return setTitle;
+};

@@ -1,37 +1,36 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
 
-const content = [
-  {
-    tab: "Section 1",
-    content: "I'm the content of the Section 1",
-  },
-  {
-    tab: "Section 2",
-    content: "I'm the content of the Section 2",
-  },
-];
+const useTitle = (initialTitle) => {
+  const [title, setTitle] = useState(initialTitle);
 
-const useTab = (initialTab, allTabs) => {
-  const [currentIndex, setCurrentIndex] = useState(initialTab);
-
-  return {
-    currentItem: allTabs[currentIndex],
-    changeItem: setCurrentIndex,
+  const updateTitle = () => {
+    const htmlTitle = document.querySelector("title");
+    htmlTitle.innerText = title;
   };
+
+  useEffect(updateTitle, [title]);
+
+  return setTitle;
 };
 
 function App() {
-  const { currentItem, changeItem } = useTab(0, content);
+  const titleUpdater = useTitle("Loading....");
+  setTimeout(() => titleUpdater("Home"), 5000);
+  const sayHello = () => console.log("hello");
+
+  const [number, setNumber] = useState(0);
+  const [anumber, setAnumber] = useState(0);
+
+  useEffect(() => {
+    sayHello();
+  }, [number]);
 
   return (
     <div className="App">
-      {content.map((section, index) => (
-        <button key={index} onClick={() => changeItem(index)}>
-          {section.tab}
-        </button>
-      ))}
-      <div>{currentItem.content}</div>
+      <div>Hello</div>
+      <button onClick={() => setNumber(number + 1)}>{number}</button>
+      <button onClick={() => setAnumber(anumber + 1)}>{anumber}</button>
     </div>
   );
 }
