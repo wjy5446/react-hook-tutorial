@@ -34,7 +34,7 @@ export const useTab = (initialTab, allTabs) => {
 };
 
 //useTitle
-const useTitle = (initialTitle) => {
+export const useTitle = (initialTitle) => {
   const [title, setTitle] = useState(initialTitle);
 
   const updateTitle = () => {
@@ -45,4 +45,19 @@ const useTitle = (initialTitle) => {
   useEffect(updateTitle, [title]);
 
   return setTitle;
+};
+
+//useClick
+export const useClick = (onClick) => {
+  const element = useRef();
+
+  useEffect(() => {
+    if (element.current) {
+      element.current.addEventListener("click", onClick);
+
+      return () => element.current.removeEventListener("click", onClick);
+    }
+  }, []);
+
+  return element;
 };
